@@ -1,0 +1,763 @@
+
+Playwright:
+--------------
+Playwright it is an API for end to end to modern web application testing
+
+
+By default Playwright executes all test cases in parallel and 
+executes on (chromium,firefox,webkit).
+
+By default playwright executes all test in headless mode
+Headless:
+-------------
+Without any UI
+
+To Run Playwright testCase
+------------------------------
+1.To run all test from tests folder
+npx playwright test
+
+2.To run specifi test case
+npx playwright test tests/testcasename
+
+3.To run test case in headed mode
+npx playwright test tests/testcasename --headed
+
+4.To run test case on any single browser
+npx playwright test tests/testcasename --headed --project=chromium
+------------------------------------------------
+Playwright Commands
+======================
+
+//To open any aaplication
+await page.goto("url");
+
+//To get application current title
+page.title();
+
+//To get application current url
+page.url();
+
+
+Playwright tags
+-------------------
+1.only
+2.skip
+
+If you wanted to start session on real browser Microsoft edge,chrome browser
+-------------------------------------------------
+chromium.launch({headeless:false,channel:"msedge"})
+
+chromium.launch({headeless:false,channel:"chrome"})
+
+what is channel?
+--------------------
+Browser distribution channel.
+
+Use "chromium" to opt in to new headless mode.
+
+Use "chrome", "chrome-beta", "chrome-dev", "chrome-canary",
+ "msedge", "msedge-beta", "msedge-dev", or "msedge-canary" 
+to use branded Google Chrome and Microsoft Edge.
+
+============================================
+Date: 29th Nov 2025
+======================
+How to automate mobile web application with mobile emulator/simulator in playwright
+playwright.config.js
+
+Playwright support mobile web application test not native app test.
+
+---------------------------------------------
+Assertion In Playwright
+--------------------------
+Assertion will help to validate current status of application
+Types
+=======
+1.Hard Assertion
+If assertion fail hard assertion immediate stop execution on failure line
+
+2.Soft Assertion
+If assertion fail soft assertion continue execution after failure line and throws error
+
+we are using playwright with  Javascript language it support chai assertion library
+here use expect() for assertion
+
+//with respect to page
+await expect(page).toHaveURL("https://www.google.com/")//exact match
+
+//partial match /partial text/
+await expect(page).toHaveURL(/google/);
+
+
+Note :
+If Assertion fail then Assertion error throw after 5000ms
+
+---------------------------------------
+Navigations in Playwright
+-----------------------------
+gotBack() :navigate to back
+goForward() :navigate to forward
+reload():refresh page
+=================================================
+How to automate WebElement?
+-------------------------------
+1.Identify WebElement
+2.Perform actions on WebElement
+
+
+How to Identify WebElement?
+------------------------------
+To Identify WebElement we use Locators
+
+What is Locator?
+------------------
+Locator is address of WebElement form Webpage
+
+Playwright Locator Support
+-----------------------------
+1.Build In Locator Support
+page.getByRole() to locate by explicit and implicit accessibility attributes.
+page.getByText() to locate by text content.
+page.getByLabel() to locate a form control by associated label's text.
+<label><input type="checkbox" id="remember">Remember me</label>
+
+page.getByPlaceholder() to locate an input by placeholder.
+
+page.getByAltText() to locate an element, usually image, by its text alternative.
+page.getByTitle() to locate an element by its title attribute.
+page.getByTestId() to locate an element based on its data-testid attribute (other attributes can be configured).
+
+2.By CssSelector
+3.By Xpath
+
+==================================
+WebElement is visible,enabled,disable
+------------------------------
+isVisible()
+isEnabled()
+isDisabled()
+
+30-11-2025
+=================
+2.Actions on element-
+=========================
+1.inputbox,searchbox,textbox--->write ---->fill("text")
+
+//pressSequentially()
+//NOTE In most cases, you should use locator.fill(value[, options]) instead. You only need to press keys one by one if there is special keyboard handling on the page.
+await page.getByTitle("Search").pressSequentially("automation",{delay:1000});
+//amazon search,flipkart,googlesearch
+
+2.button,link-->click--->click()
+3.checkbox,radiobutton--->click---->click(),check(),uncheck()
+4.dropdown---><select> based --->selectOptions()
+
+To get text of element in Playwright(selenium getText())
+======================================
+1.textContent()- visible text and hidden text also
+2.innerText()- visible text from page
+
+To get the attribute value
+===============================
+getAttribute('attributename'): returns attribute value
+
+For Dynamic Elements/Complex scenarios
+==========================================
+cssSelector 
+Xpath
+Note:
+=======
+In playwright when we follow cssSelctor or xpath locator
+then use locator() to identify that element
+page.locator("css/xpath")
+
+cssSelector
+================
+cssSelector is locator to locate element based on its css property
+cssSelector can travel only in one direction (Parent to child)
+cssSelector is faster than Xpath
+cssSelector doesnt support text
+
+1.tagname with id
+=====================
+Syntax:
+------------
+tagname#id or #id
+a#SignIn
+
+2.tagname with className
+=====================
+Syntax:
+------------
+tagname.className
+
+button.btn
+
+Multiple classnames
+--------------------
+tagname.c1.c2.c3..... cn
+
+3.tagname with attribute
+===========================
+tagname[attribute='value']
+
+input[type='password']
+
+multiple attributes
+-----------------------
+tagname[attribute1='value'][attribute2='value'][attribute3='value']
+
+input[name='password-name'][type='password']
+
+4.tagname with id ,classname ,attaribute
+============================================
+Syntax:
+==========
+tagname#id.className[attribute='value']
+
+button.btn[type="submit"]#submit-id
+
+5.cssSelector with contains (partial match)
+=========================================
+Syntax:
+------------
+tagname[attribute*='partial value']
+id="twotabsearchtextbox"
+
+input[id*='searchtext'] ......1 of 1
+
+6.cssSelector with starts-with (Prefix value)
+=======================================
+syntax:
+==========
+tagname[attribute ^='prefix value']
+input[id^='two']......1 of 1
+
+7.cssSelector with ends-with (suffix value)
+===========================================
+syntax:
+==========
+tagname[attribute $='suffix value']
+input[id$='box']
+
+8.parent to child 
+==========================
+     1. parenttag childtag :- direct + indirect child Elements
+     2. parenttag>childtag :- direct child elements
+
+
+9.cssSelector with index
+===============================
+Syntax:
+===============
+parenttag childtag:nth-Child(index)
+
+
+6-12-2025
+====================
+Multiple Webelement automation
+-----------------------------
+all():Locator[]
+allInnerText():String[]
+
+
+To enter value and get that entered value method
+=================================================
+To enter value in textbox
+await page.locator("").fill("Hello");
+
+To get this entered value
+--------------------------------
+Returns the value for the matching <input> or <textarea> or <select> element.
+
+await page.locator("").inputValue();
+
+
+Xpath Locator
+============================
+-It is path of element from html/xml document
+-xpath identify elements from DOM(document Object model)
+-xpath have multiple method support
+-xpath can travel forward and backward directions
+-xpath Axies Parent,child,ancestor,siblings,following,preceding
+
+------html DOM-------
+<html>------root node
+<head>
+</head>
+
+<body>
+<input>
+<a>----------------element
+<button>
+</body>
+</html>
+==========================
+Xpath Types
+==================
+1.Absolute xpath(full path)
+===========================
+-It Identify element from root node <html>
+-It starts with '/'
+
+/html/body/div[2]/div/div/div/div[2]/div/form/div[1]/input
+
+2.Relative xpath(partial path)
+==============================
+-It identify element from its realative property
+-It starts with '//'
+
+//*[@id="input-email"]
+
+* find any tag where id ="input-email"
+
+Syntax:
+============
+//tagname[@attribute='value']
+
+
+xpath with Operator
+====================
+At the time of identifying elements based on multiple attribute
+
+and(&&)
+------------
+syntax
+=========
+//tagname[@attribute1='value' and @attribute2='value'and @attribute3='value']
+
+or(||)
+============
+syntax
+=========
+//tagname[@attribute1='value' or @attribute2='value' or @attribute3='value']
+
+
+xpath with index and position()
+====================================
+For Indexing
+===============
+(xpath)[index number from Dom]
+
+position()
+===================
+(xpath)[position()=index number from Dom]
+
+
+xpath with methods
+========================
+1.text()
+============
+If element present with visible text <a>text</a>we can identify it using text()
+text() never ignores white space
+Syntax:
+===========
+//tagname[text()='visible text']
+
+2.normalize-space():trim():safe
+================================
+If element present with visible text <a>text</a>we can identify it using normalize-spce()
+normalize-space() ignores white space and identify element based on text
+
+Syntax:
+===========
+//tagname[normalize-space()='visible text']
+
+3.contains()
+====================
+work for partial match with attribute value or visible text
+
+<input id="abcdefghijkhkjhkjkljk">
+
+synatx:
+============
+//tagname[contains(@attribute,'partial value')]
+
+or
+
+//tagname[contains(text(),'partial text')]
+//tagname[contains(normalize-space(),'partial text')]
+
+//input[contains(@id,'defgh')]
+
+4.starts-with()
+==========================
+this method identify element based on prefix value
+
+Syntax
+===========
+//tagname[starts-with(@attribute,'prefix value')]
+
+or
+//tagname[starts-with(text(),'prefix text')]
+
+
+xpath Axies(Dynamic Elements)
+================================
+1.ancestor
+================
+Syntax:
+=======
+//tagname[@attribute='value']//ancestor::ancestor tagname
+
+2.parent
+================
+Syntax:
+=======
+//tagname[@attribute='value']//parent::parent tagname
+
+3.child
+==========
+Syntax:
+=======
+//tagname[@attribute='value']//child::child tagname
+
+4.following
+=================
+Syntax:
+=======
+//tagname[@attribute='value']//following::following tagname
+
+5.preceding
+==============
+Syntax:
+=======
+//tagname[@attribute='value']//preceding::preceding tagname
+
+6.following-siblings
+=========================
+Syntax:
+=======
+//tagname[@attribute='value']//following-sibling::following-sibling tagname
+
+7.preceding-siblings
+========================
+Syntax:
+=======
+//tagname[@attribute='value']//preceding-sibling::preceding-sibling tagname
+
+<tbody>-------------------------GrandParent for John-ancestor
+     <tr>--------------------Parent for John
+         <td>4</td>-----------------preceding sibling
+          <td>John</td>---------Element
+          <td>Robinson</td>--------
+          <td>jr5527</td>----------following siblings
+          <td>---------------
+          <a href="user.html"><i class="icon-pencil"></i></a></td>
+        </tr>
+        <tr>----following node
+        <tr>
+</tbody>
+
+=========================================================
+From Multiple Elements to match unique element
+================================
+nth(index) first()  last()
+-------------------------------
+nth(index)
+-----------
+Returns locator to the n-th matching element.
+It's zero based, nth(0) selects the first element.
+
+last()
+-------
+Returns locator to the last matching element.
+
+checkbox & Radion button
+------------------------------
+done
+
+=======================================================
+Dropdown automation
+==========================
+
+1.Select tag based dropdown
+<select>
+--------------------------
+select by value
+select by label
+select by index
+
+page.locator().selectOptions("value")
+page.locator().selectOptions({label:"visible text"})
+index starts with 0
+page.locator().selectOptions({index:2})
+------------------------------------------
+
+2.Non select tag based dropdown/autosuggestion/bootstarp dropdown
+non<select>
+-------------------------
+Use appropriate locator
+
+============================================
+How to execute Javascript code in Playwright
+======================================
+What evaluate() does
+It executes the function you pass in the page’s context, not in Node.js.
+This means it can access browser objects like:
+document,window,localStorage
+
+Why use evaluate()?
+--------------------------
+To read or modify the DOM
+To run custom JavaScript inside the webpage
+To get values not directly exposed by Playwright API
+
+evaluate() is more flexible when accessing any page-level JavaScript.
+
+//scrolldown
+await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));
+//scrollup
+await page.evaluate(()=>window.scrollTo(document.body.scrollHeight,0));
+//scroll for Element
+await page.locator("").scrollIntoViewIfNeeded();
+
+
+How to use Javascript command in Playwright
+---------------------------------------------
+-Scroll the page
+
+-how to refresh page
+-----------------------
+await page.evaluate(()=>{
+     window.history.go(0);
+
+})
+-how to get title of webpage
+===========================
+await page.evaluate(()=>{
+     document.title;
+})
+
+-how to enter or perform click on element
+==================================
+https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+querySelector() works with cssSelector only
+await page.evaluate(()=>{
+     document.querySelector("[id='']").click();
+     document.querySelector("locator").value="data"
+})
+
+-how to automate disable element/hidden elements using Javascript
+===========================================================
+
+WebTable automation(xpath axis)
+=================
+Scenarios:
+--------------
+Total rows
+Total Colums
+Specific row
+specific Column
+all data print
+
+static WebTable
+dynamic WebTable
+pagination
+==============================
+Calender/datePicker
+===============
+To automate Calender
+1.set expections
+2.identify expected month
+3.identify expected date and select
+
+======================================
+Alert handling
+=======================
+Alerts are browser based and for any application wrong selectOptionsalert will trigger
+
+There are 3 types of Alert
+==========================
+1.Simple alert(alert)
+2.Confirmation alert(confirm)
+3.prompt alert(prompt)
+
+-Playwright can interact with the web page dialogs such as alert, confirm, prompt 
+-By default, dialogs are auto-dismissed by Playwright
+-But to perform specific action you can manually trigger it using page.on listener
+
+
+for page.on event handling alert 4 methods are available
+--------------------------------
+1.OK-->To simulate action ok = accept()
+2.Cancel-->To simiulate action on Cancel =dismiss()
+3.To get alert text: message()
+4.To check type of alter= type()
+5.for Prompt alert = accept("prompt")
+
+//Note
+=======
+- trigger alert listener always before opening that alert
+
+
+Frame handling
+==================
+One html document embeded into other html document is called Frame
+<frame> or <iframe> inline frame
+
+In Playwright every frame its frame object
+1.frameLocator(): recommended
+2.page.frame()
+
+=======================================
+Promise concept in JavaScript
+=============================
+State:
+pending
+resolve---handle by then()
+reject----handle by catch()
+
+
+Window/tab handling
+===================
+let [newTab]=await Promise.all([
+
+	page.waitForEvent('popup'),
+	page.locator().click() which tigger that event
+])
+
+special note
+===================
+1.don't use await in promise.all()
+ Because any of the promise fullfill,it will return immediately.
+2.dont change sequence also.
+
+first wait for the event, tren trigger the event by clicking on it. 
+
+3. dont use await page. locator().click() & await page.waitfor Event() 
+- It will be running in Sequential mode.
+
+after click() promise fullfill and it returns immediately and it won't capture
+the waitForEvent() which look for that event(newtab)so always 
+use without awiat and so it should be in same sequence as well.
+
+=====================================================
+
+FileUpload
+===============
+done
+Multiple Files: setInputFiles(["path1","path2"])
+single file: setInputFiles("path")
+
+Mouse Operations
+=====================
+1.RightClick(context click)
+await page.locator().click({button:"right"})
+
+2.Doubleclick
+await page.locator().dbClick();
+
+3.MouseHover
+await page.locator().hover()
+
+4.drag and drop
+source.dragTo(target)
+
+5.keyboard
+page.keyboard.press()/type()
+
+Assertions
+===================
+To validate certain state of application we use Assertions
+
+Playwright support two types of assertion
+1.Hard assertion
+--------------------
+If assertion fail playwright will stop execution on that line
+and after 5sec you will see assertion error
+
+2.Soft assertion
+---------------------
+If assertion fail playwright will never stop execution on that line,
+it will continue till and show error on that line
+
+
+Assertions in playwright we can implement using expect()
+
+We have auto wait for assertions which is 5sec.
+
+===============================================
+special scenarios
+---------------------
+svg
+=========
+Scaler vector graph 
+We can automate these elements only with xpath
+
+syntax
+======
+//*[local-name()='svg']
+
+or
+
+//*[name()='svg']
+
+
+shadow dom element
+===================
+Shadow DOM is a web standard for isolating CSS and markup within web components,
+ensuring that styles and scripts do not interfere with the main document. 
+It attaches a hidden, separate DOM tree to an element (the shadow host),
+allowing for encapsulated, modular, and reusable components. 
+
+https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM
+
+Note:
+===========
+if shadow dom element is available in page then direct identify it and performaction 
+but if element is present inside frame then first identify frame then shadow dom element'
+
+video
+screenshots
+==============================
+Auto Waits +codegen
+
+page level wait
+
+event level wait
+
+element level wait
+
+=================================
+Data driven test in playwright
+===================================
+Data driven Testing is framework in automation
+
+Execute same set of actions, multiple time with multiple set of data is called
+data driven testing
+
+datasetinside file--->script for reading that data--->use in test case
+
+most common file format is json
+
+Data should be in the format of javascript Object(Key:value)
+
+Ways
+======
+1.Using array
+2.using json file
+3.using CSV file(external utilities):https://www.npmjs.com/package/papaparse
+4.using excel file (external utilities):https://www.npmjs.com/package/xlsx
+
+=============================================================
+
+Hooks ,groups and Fixtures in Playwright
+=========================================
+Hooks are applicable for preconditions and postconditions
+1.beforeAll()
+2.afterAll()
+3.beforeEach()
+4.afterEach()
+
+how to group test cases/test suite
+--------------------------------
+test.describe()
+
+
+page object model
+
+
+
+Framework design
